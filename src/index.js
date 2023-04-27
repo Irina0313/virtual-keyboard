@@ -141,26 +141,43 @@ getPressedShiftAlt(
   'AltLeft',
 );
 
-/*  check if CapsLock was pressed  */
-function getPressedCapsLock(change, code) {
-  const pressed = code;
-
+/*  check if CapsLock Shift was pressed  */
+function getPressedCapsLock(change, ...codes) {
+  let pressed = '';
   document.addEventListener('keydown', (event) => {
-    if (pressed !== event.code) {
+    pressed = event.code;
+
+    if (!codes.includes(pressed)) {
       return;
     }
-    if (capsLock === 'active') {
+
+    pressed = '';
+    if (capsLock === 'active' && event.repeat !== true) {
       capsLock = 'unactive';
       change(ruLayoutLoverCase, engLayoutLoverCase);
-    } else if (capsLock === 'unactive') {
+    } else if (capsLock === 'unactive' && event.repeat !== true) {
       capsLock = 'active';
       change(ruLayout, engLayout);
+    }
+    console.log(event.repeat);
+  });
+  document.addEventListener('keyup', (ev) => {
+    if (ev.code === 'ShiftRight' || ev.code === 'ShiftLeft') {
+      if (capsLock === 'active') {
+        capsLock = 'unactive';
+        change(ruLayoutLoverCase, engLayoutLoverCase);
+      } else if (capsLock === 'unactive') {
+        capsLock = 'active';
+        change(ruLayout, engLayout);
+      }
     }
   });
 }
 getPressedCapsLock(
   changeLayout,
   'CapsLock',
+  'ShiftRight',
+  'ShiftLeft',
 );
 
 /* add animation after key put down on the keyboard */
