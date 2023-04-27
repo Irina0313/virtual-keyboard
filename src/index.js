@@ -4,6 +4,7 @@ import './index.html';
 import './style.scss';
 
 import { ElementBuilder } from './modules/elem-builder';
+import { keyCodeLayout, engLayout, ruLayout } from './modules/keyboards-layouts';
 
 /*  create document strucrure  */
 let lang = 'EN';
@@ -47,15 +48,6 @@ for (let i = 0; i < 5; i += 1) {
   keyRow = new ElementBuilder('div', keyboardSection, 'keyboard__row');
   keyRow = keyRow.createElement();
 }
-const keyCodeLayout = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Delete', 'CapsLock', 'Keya', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Backslash', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'];
-
-const engLayout = [
-  ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-  ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', 'Del'],
-  ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", '\\', 'Enter'],
-  ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '', 'Shift'],
-  ['Ctrl', 'Win', 'Alt', '', 'Alt', '', '', '', 'Ctrl'],
-];
 
 keyRow = document.querySelectorAll('.keyboard__row');
 let span;
@@ -73,17 +65,20 @@ engLayout.forEach((item, i) => {
 const spaceKey = keyRow[4].children[3];
 spaceKey.classList.add('space');
 
-const upKey = keyRow[3].children[11];
-upKey.innerHTML = '&#9650;';
+const setArrows = () => {
+  const upKey = keyRow[3].children[11];
+  upKey.innerHTML = '&#9650;';
 
-const leftKey = keyRow[4].children[5];
-leftKey.innerHTML = '&#9668;';
+  const leftKey = keyRow[4].children[5];
+  leftKey.innerHTML = '&#9668;';
 
-const downKey = keyRow[4].children[6];
-downKey.innerHTML = '&#9660;';
+  const downKey = keyRow[4].children[6];
+  downKey.innerHTML = '&#9660;';
 
-const rightKey = keyRow[4].children[7];
-rightKey.innerHTML = '&#9658;';
+  const rightKey = keyRow[4].children[7];
+  rightKey.innerHTML = '&#9658;';
+};
+setArrows();
 
 /*  footer  */
 
@@ -94,9 +89,56 @@ div = new ElementBuilder('div', footer, 'footer__row');
 div = div.createElement();
 div.innerText = 'Prodused by Iryna Kanavalchuk';
 
+/*  function to change the languauge  */
+
+const changeLanguage = () => {
+  for (let i = 0; i < keyRow.length; i += 1) {
+    for (let k = 0; k < keyRow[i].childElementCount; k += 1) {
+      if (lang === 'RU') {
+        keyRow[i].children[k].innerText = ruLayout[i][k];
+      } else {
+        keyRow[i].children[k].innerText = engLayout[i][k];
+      }
+    }
+  }
+  setArrows();
+};
+
+function getPressedShiftAlt(change, ...codes) {
+  const pressed = new Set();
+
+  document.addEventListener('keydown', (event) => {
+    pressed.add(event.code);
+
+    for (let i = 0; i < codes.length; i += 1) {
+      if (!pressed.has(codes[i])) {
+        return;
+      }
+    }
+
+    pressed.clear();
+    if (lang === 'EN') {
+      lang = 'RU';
+    } else {
+      lang = 'EN';
+    }
+
+    change();
+  });
+
+  document.addEventListener('keyup', (event) => {
+    pressed.delete(event.code);
+  });
+}
+getPressedShiftAlt(
+  changeLanguage,
+  'ShiftLeft',
+  'AltLeft',
+);
+
 /* add animation after key put down on the keyboard */
 
-let keyArr = document.querySelectorAll('.key');
+const keyArr = document.querySelectorAll('.key');
 
 document.addEventListener('keydown', (event) => {
   keyCodeLayout.forEach((el, i) => {
