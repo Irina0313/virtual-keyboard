@@ -1,0 +1,19 @@
+html {
+  font-size: 10px;
+}
+
+body {
+  height: 100vh;
+  background: $background-color;
+  background-image: url(assets/images/background-img.png);
+  font-size: 25px;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main__wrapper {
+  width: 100%;
+}

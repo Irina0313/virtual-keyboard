@@ -1,0 +1,13 @@
+.footer {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  justify-content: flex-start;
+}
+.footer__row {
+  font-family: $font-page;
+  font-style: italic;
+  font-size: 1.8rem;
+  margin: 0;
+}

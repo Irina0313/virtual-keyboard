@@ -1,0 +1,14 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+.section {
+  height: 40%;
+  max-width: 900px;
+  width: 100%;
+  box-sizing: border-box;
+}
