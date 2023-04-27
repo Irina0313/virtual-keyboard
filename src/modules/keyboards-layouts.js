@@ -12,6 +12,19 @@ export const engLayout = [
   ['Ctrl', 'Win', 'Alt', '', 'Alt', '', '', '', 'Ctrl'],
 ];
 
+export const engLayoutLoverCase = [];
+engLayout.forEach((el) => {
+  const row = [];
+  el.forEach((key) => {
+    if (/[a-zа-яё]/i.test(key) && key.length === 1) {
+      row.push(key.toLowerCase());
+    } else {
+      row.push(key);
+    }
+  });
+  engLayoutLoverCase.push(row);
+});
+
 /*  Array for an Russian layout */
 
 export const ruLayout = [
@@ -21,3 +34,16 @@ export const ruLayout = [
   ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', '', 'Shift'],
   ['Ctrl', 'Win', 'Alt', '', 'Alt', '', '', '', 'Ctrl'],
 ];
+
+export const ruLayoutLoverCase = [];
+ruLayout.forEach((el) => {
+  const row = [];
+  el.forEach((key) => {
+    if (/[a-zа-яё]/i.test(key) && key.length === 1) {
+      row.push(key.toLowerCase());
+    } else {
+      row.push(key);
+    }
+  });
+  ruLayoutLoverCase.push(row);
+});

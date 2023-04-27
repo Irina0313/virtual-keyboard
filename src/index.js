@@ -4,10 +4,13 @@ import './index.html';
 import './style.scss';
 
 import { ElementBuilder } from './modules/elem-builder';
-import { keyCodeLayout, engLayout, ruLayout } from './modules/keyboards-layouts';
+import {
+  keyCodeLayout, engLayout, ruLayout, ruLayoutLoverCase, engLayoutLoverCase,
+} from './modules/keyboards-layouts';
 
 /*  create document strucrure  */
 let lang = 'EN';
+let capsLock = 'active';
 const body = document.querySelector('body');
 
 /*  header  */
@@ -89,20 +92,22 @@ div = new ElementBuilder('div', footer, 'footer__row');
 div = div.createElement();
 div.innerText = 'Prodused by Iryna Kanavalchuk';
 
-/*  function to change the languauge  */
+/*  function to change the layout  */
 
-const changeLanguage = () => {
+const changeLayout = (layoutRu, layoutEn) => {
   for (let i = 0; i < keyRow.length; i += 1) {
     for (let k = 0; k < keyRow[i].childElementCount; k += 1) {
       if (lang === 'RU') {
-        keyRow[i].children[k].innerText = ruLayout[i][k];
+        keyRow[i].children[k].innerText = layoutRu[i][k];
       } else {
-        keyRow[i].children[k].innerText = engLayout[i][k];
+        keyRow[i].children[k].innerText = layoutEn[i][k];
       }
     }
   }
   setArrows();
 };
+
+/*  check if ShiftRight + AltRight were pressed  */
 
 function getPressedShiftAlt(change, ...codes) {
   const pressed = new Set();
@@ -123,7 +128,7 @@ function getPressedShiftAlt(change, ...codes) {
       lang = 'EN';
     }
 
-    change();
+    change(ruLayout, engLayout);
   });
 
   document.addEventListener('keyup', (event) => {
@@ -131,9 +136,31 @@ function getPressedShiftAlt(change, ...codes) {
   });
 }
 getPressedShiftAlt(
-  changeLanguage,
+  changeLayout,
   'ShiftLeft',
   'AltLeft',
+);
+
+/*  check if CapsLock was pressed  */
+function getPressedCapsLock(change, code) {
+  const pressed = code;
+
+  document.addEventListener('keydown', (event) => {
+    if (pressed !== event.code) {
+      return;
+    }
+    if (capsLock === 'active') {
+      capsLock = 'unactive';
+      change(ruLayoutLoverCase, engLayoutLoverCase);
+    } else if (capsLock === 'unactive') {
+      capsLock = 'active';
+      change(ruLayout, engLayout);
+    }
+  });
+}
+getPressedCapsLock(
+  changeLayout,
+  'CapsLock',
 );
 
 /* add animation after key put down on the keyboard */
