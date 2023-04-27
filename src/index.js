@@ -6,7 +6,7 @@ import './style.scss';
 import { ElementBuilder } from './modules/elem-builder';
 
 /*  create document strucrure  */
-
+let lang = 'EN';
 const body = document.querySelector('body');
 
 /*  header  */
@@ -47,6 +47,7 @@ for (let i = 0; i < 5; i += 1) {
   keyRow = new ElementBuilder('div', keyboardSection, 'keyboard__row');
   keyRow = keyRow.createElement();
 }
+const keyCodeLayout = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Delete', 'CapsLock', 'Keya', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Backslash', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'];
 
 const engLayout = [
   ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
@@ -93,13 +94,22 @@ div = new ElementBuilder('div', footer, 'footer__row');
 div = div.createElement();
 div.innerText = 'Prodused by Iryna Kanavalchuk';
 
-/* const engLayout = [];
-document.addEventListener('keydown', function (event) {
-  addKey(event.key)
+/* add animation after key put down on the keyboard */
+
+let keyArr = document.querySelectorAll('.key');
+
+document.addEventListener('keydown', (event) => {
+  keyCodeLayout.forEach((el, i) => {
+    if (event.code === el) {
+      keyArr[i].classList.add('key_active');
+    }
+  });
 });
 
-function addKey(simbol) {
-  engLayout.push(simbol);
-}
-
-console.log(engLayout) */
+document.addEventListener('keyup', (event) => {
+  keyCodeLayout.forEach((el, i) => {
+    if (event.code === el) {
+      keyArr[i].classList.remove('key_active');
+    }
+  });
+});
