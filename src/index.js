@@ -71,17 +71,26 @@ spaceKey.classList.add('space');
 const setArrows = () => {
   const upKey = keyRow[3].children[11];
   upKey.innerHTML = '&#9650;';
+  upKey.classList.add('arrow');
 
   const leftKey = keyRow[4].children[5];
+  leftKey.classList.add('arrow');
   leftKey.innerHTML = '&#9668;';
 
   const downKey = keyRow[4].children[6];
   downKey.innerHTML = '&#9660;';
+  downKey.classList.add('arrow');
 
   const rightKey = keyRow[4].children[7];
   rightKey.innerHTML = '&#9658;';
+  rightKey.classList.add('arrow');
 };
 setArrows();
+
+const keys = document.querySelectorAll('.key');
+for (let i = 0; i < keys.length; i += 1) {
+  keys[i].classList.add(keyCodeLayout[i].toLowerCase());
+}
 
 /*  footer  */
 
@@ -180,22 +189,92 @@ getPressedCapsLock(
   'ShiftLeft',
 );
 
+// let message = '';
+
+/* function getNewText(pressedKey) {
+  let key = pressedKey.innerText;
+  let newText = '';
+  if (/[a-zа-яё]/i.test(key) && key.length === 1) {
+    newText += key;
+  }
+  if (pressedKey.classList.contains('space')) {
+    newText += ' ';
+  }
+  return newText;
+} */
+let ind = textarea.value.length;
+
+function getMessage(pressedKey) {
+  if (/[a-zа-яё]/i.test(pressedKey.innerText) && pressedKey.innerText.length === 1) {
+    if (ind === textarea.value.length) {
+      textarea.value += pressedKey.innerText;
+      textarea.innerText = textarea.value;
+      textarea.focus();
+      textarea.selectionStart = textarea.value.length;
+      textarea.selectionEnd = textarea.selectionStart;
+    } else if (ind < textarea.value.length) {
+      const text = textarea.value;
+      textarea.value = text.substring(0, ind) + pressedKey.innerText;
+      textarea.value += text.substring(ind, text.length);
+      textarea.focus();
+      textarea.selectionStart = ind + 1;
+      textarea.selectionEnd = textarea.selectionStart;
+    }
+  }
+
+  if (pressedKey.classList.contains('backspace')) {
+    textarea.innerText = textarea.value.slice(0, -1);
+    textarea.focus();
+    textarea.selectionStart = textarea.value.length;
+    textarea.selectionEnd = textarea.selectionStart;
+  }
+}
+
 /* add animation after key put down on the keyboard */
 
-const keyArr = document.querySelectorAll('.key');
+const position = (obj) => {
+  obj.focus();
+  if (obj.selectionStart) return obj.selectionStart;
+  if (document.selection) {
+    const sel = document.selection.createRange();
+    const clone = sel.duplicate();
+    sel.collapse(true);
+    clone.moveToElementText(obj);
+    clone.setEndPoint('EndToEnd', sel);
+    return clone.text.length;
+  }
+  return 0;
+};
+
+// let position = getCaretPos(textarea)
 
 document.addEventListener('keydown', (event) => {
-  keyCodeLayout.forEach((el, i) => {
-    if (event.code === el) {
-      keyArr[i].classList.add('key_active');
+  for (let i = 0; i < keys.length; i += 1) {
+    if (keys[i].classList.contains('key_active')) {
+      event.preventDefault();
+      return;
     }
-  });
+    let target = null;
+    if (keys[i].classList.contains(event.code.toLowerCase())) {
+      target = keys[i];
+    }
+    if (target) {
+      target.classList.add('key_active');
+      if (/[a-zа-яё]/i.test(target.innerText) && target.innerText.length === 1) {
+        event.preventDefault();
+      }
+      getMessage(target);
+    }
+  }
 });
 
 document.addEventListener('keyup', (event) => {
   keyCodeLayout.forEach((el, i) => {
     if (event.code === el) {
-      keyArr[i].classList.remove('key_active');
+      keys[i].classList.remove('key_active');
     }
   });
+  ind = position(textarea);
 });
+
+/* Function for typing in the input */
