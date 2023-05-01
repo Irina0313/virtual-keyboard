@@ -168,7 +168,11 @@ function getPressedShiftAlt(change, ...codes) {
     } else {
       localStorage.lang = 'EN';
     }
-    change(ruLayout, engLayout);
+    if (capsLock === 'active' && event.repeat !== true) {
+      change(ruLayout, engLayout);
+    } else {
+      change(ruLayoutLowerCase, engLayoutLowerCase);
+    }
   });
 
   document.addEventListener('mousedown', (event) => {
@@ -185,7 +189,12 @@ function getPressedShiftAlt(change, ...codes) {
     } else {
       localStorage.lang = 'EN';
     }
-    change(ruLayout, engLayout);
+
+    if (capsLock === 'active' && event.repeat !== true) {
+      change(ruLayout, engLayout);
+    } else {
+      change(ruLayoutLowerCase, engLayoutLowerCase);
+    }
   });
   document.addEventListener('keyup', (event) => {
     pressed.delete(event.code);
