@@ -1,9 +1,10 @@
 html {
   font-size: 10px;
+  height: 100%;
 }
 
 body {
-  height: 100vh;
+  height: 100%;
   background: $background-color;
   /*background-image: url(assets/images/background-img.png);*/
   font-size: 25px;
@@ -12,6 +13,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  row-gap: 20px;
 }
 
 .main__wrapper {

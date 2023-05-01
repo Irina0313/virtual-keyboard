@@ -2,8 +2,6 @@ import '@babel/polyfill/lib';
 import './index.html';
 import './style.scss';
 
-// import { locale } from 'core-js';
-// import { text } from 'express';
 import { ElementBuilder } from './modules/elem-builder';
 import {
   keyCodeLayout,
@@ -123,8 +121,18 @@ let footer = new ElementBuilder('footer', body, 'footer');
 footer = footer.createElement();
 
 div = new ElementBuilder('div', footer, 'footer__row');
-div = div.createElement();
-div.innerText = 'Prodused by Iryna Kanavalchuk';
+const footerRow = div.createElement();
+
+span = new ElementBuilder('span', footerRow, 'footer__item');
+span = span.createElement();
+
+span = new ElementBuilder('span', footerRow, 'footer__item');
+span = span.createElement();
+
+const footerItems = document.querySelectorAll('.footer__item');
+const [language, system] = footerItems;
+language.innerText = 'Change language: Ctrl+Alt (right or left)';
+system.innerText = 'designed for Windows keyboard layout';
 
 /*  function to change the layout  */
 
