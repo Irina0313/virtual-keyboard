@@ -462,7 +462,7 @@ document.addEventListener('keydown', (event) => {
       if (target.innerText.length === 1 && !target.classList.contains('arrow') && !target.classList.contains('enter') && !target.classList.contains('alt')) {
         event.preventDefault();
       }
-      if (target.classList.contains('tab')) {
+      if (target.classList.contains('tab') || target.classList.contains('altleft') || target.classList.contains('altright')) {
         event.preventDefault();
       }
       getMessage(target);
@@ -493,11 +493,11 @@ document.addEventListener('keyup', (event) => {
 keyboardSection.addEventListener('mousedown', (event) => {
   const { target } = event;
   for (let i = 0; i < keys.length; i += 1) {
-    if (keys[i].classList.contains(target.classList[2]) && keys[i].classList[1] === 'shift') {
+    if (keys[i].classList.contains(target.classList[2]) && ((keys[i].classList[1] === 'shift') || (keys[i].classList[1] === 'arrow'))) {
       keys[i].classList.add('key_active');
       getMessageNew(target);
     }
-    if (keys[i].classList.contains(target.classList[1]) && keys[i].classList[1] !== 'shift') {
+    if (keys[i].classList.contains(target.classList[1]) && keys[i].classList[1] !== 'shift' && keys[i].classList[1] !== 'arrow') {
       keys[i].classList.add('key_active');
       getMessageNew(target);
     }
