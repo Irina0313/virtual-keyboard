@@ -304,6 +304,21 @@ function getMessage(pressedKey) {
       textarea.selectionEnd = textarea.selectionStart;
     }
   }
+  if (pressedKey.classList.contains('tab')) {
+    if (ind === textarea.value.length) {
+      textarea.value += '\t';
+      textarea.selectionStart = textarea.value.length;
+      textarea.selectionEnd = textarea.selectionStart;
+      ind = position(textarea);
+    } else if (ind < textarea.value.length) {
+      const text = textarea.value;
+      textarea.value = `${text.substring(0, ind)}\t`;
+      textarea.value += text.substring(ind, text.length);
+      ind += 1;
+      textarea.selectionStart = ind;
+      textarea.selectionEnd = textarea.selectionStart;
+    }
+  }
 }
 
 function getMessageNew(pressedKey) {
@@ -355,6 +370,23 @@ function getMessageNew(pressedKey) {
       const text = textarea.value;
       textarea.value = `${text.slice(0, ind)}\n${text.slice(ind, text.length)}`;
       textarea.innerText = textarea.value;
+    }
+  }
+
+  if (pressedKey.classList.contains('tab')) {
+
+    if (ind === textarea.value.length) {
+      textarea.value += '\t';
+      textarea.innerText = textarea.value;
+
+    }
+
+    if (ind < textarea.value.length) {
+      const text = textarea.value;
+      textarea.value = `${text.slice(0, ind)}\t${text.slice(ind, text.length)}`;
+      textarea.innerText = textarea.value;
+      textarea.selectionStart = ind + 1;
+      textarea.selectionEnd = textarea.selectionStart;
     }
   }
 }
@@ -412,7 +444,9 @@ document.addEventListener('keydown', (event) => {
       if (target.innerText.length === 1 && !target.classList.contains('arrow') && !target.classList.contains('enter') && !target.classList.contains('alt')) {
         event.preventDefault();
       }
-
+      if (target.classList.contains('tab')) {
+        event.preventDefault();
+      }
       getMessage(target);
     }
   }
@@ -433,7 +467,7 @@ document.addEventListener('keyup', (event) => {
     ind = position(textarea);
   }
 
-  if (event.key === 'Enter' || event.key === 'Backspace' || event.code === 'Space') {
+  if (event.key === 'Enter' || event.key === 'Backspace' || event.code === 'Space' || event.key === 'Tab') {
     ind = position(textarea);
   }
 });
@@ -471,6 +505,8 @@ document.addEventListener('mouseup', (event) => {
   } else {
     ind = position(textarea);
   }
+
+
   if (event.target.classList[2] === 'arrowleft') {
     start = textarea.selectionStart;
     end = textarea.selectionEnd;
@@ -494,40 +530,6 @@ document.addEventListener('mouseup', (event) => {
     textarea.selectionStart = ind;
     textarea.selectionEnd = textarea.selectionStart;
   }
-
-  /* arrow down */
-
-  /* if (event.target.classList[2] === 'arrowdown') {
-    const prevText = (string, val) => string.slice(0, val);
-    const restText = (string, val) => string.slice(val, textarea.value.length);
-    const nextIndexOfBr = (str) => str.indexOf('\n');
-    const prevIndexOfBr = (str) => str.lastIndexOf('\n');
-    const prev = prevText(textarea.value, ind);
-    const rest = restText(textarea.value, ind);
-    let nextIndBr = nextIndexOfBr(rest);
-
-    const restFromNextStr = restText(rest, nextIndBr + 1);
-    if (prevIndexOfBr(prev) === -1) {
-      const currInd = ind - nextIndexOfBr(prev);
-      const prevLength = ind + nextIndBr;
-      const pos = (currInd * nextIndexOfBr(restFromNextStr)) / (ind + nextIndexOfBr(rest));
-      ind = prevLength + Math.round(pos);
-    } else {
-      const currInd = ind - prevIndexOfBr(prev) - 1;
-      nextIndBr = nextIndexOfBr(rest);
-      const curr = (prev.length - prevIndexOfBr(prev)) + nextIndBr;
-      const prevLength = ind + nextIndBr;
-      if (currInd === 0) {
-        ind = prevLength + 1 + Math.round((currInd * nextIndexOfBr(restFromNextStr)) / curr);
-      } else if (nextIndexOfBr(restFromNextStr) === -1) {
-        ind = prevLength + Math.round((currInd * restFromNextStr.length) / curr);
-      } else {
-        ind = prevLength + 1 + Math.round((currInd * nextIndexOfBr(restFromNextStr)) / curr);
-      }
-    }
-    textarea.selectionStart = ind;
-    textarea.selectionEnd = textarea.selectionStart;
-  } */
 
   /* arrow UP  */
 
