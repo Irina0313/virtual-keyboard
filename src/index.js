@@ -126,7 +126,7 @@ const changeLayout = (layoutRu, layoutEn) => {
   setArrows();
 };
 
-/*  check if ShiftRight + AltRight were pressed  */
+/*  Changing of the layout by Ctrl + Alt press (both left or right)  */
 
 function getPressedShiftAlt(change, ...codes) {
   const pressed = new Set();
@@ -149,7 +149,6 @@ function getPressedShiftAlt(change, ...codes) {
 
   document.addEventListener('mousedown', (event) => {
     pressed.add(event.target.classList[1]);
-    pressed.add(event.target.classList[2]);
     for (let i = 0; i < codes.length; i += 1) {
       if (!pressed.has(codes[i])) {
         return;
@@ -170,14 +169,18 @@ function getPressedShiftAlt(change, ...codes) {
 
   document.addEventListener('mouseup', (event) => {
     pressed.delete(event.target.classList[1]);
-    pressed.delete(event.target.classList[2]);
   });
 }
 
 getPressedShiftAlt(
   changeLayout,
-  'shiftleft',
+  'controlleft',
   'altleft',
+);
+getPressedShiftAlt(
+  changeLayout,
+  'controlright',
+  'altright',
 );
 
 /*  check if CapsLock or Shift were pressed on physical or virtual keyboard  */
