@@ -9,7 +9,7 @@ export const engLayout = [
   ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', 'Del'],
   ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", '\\', 'Enter'],
   ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '', 'Shift'],
-  ['Ctrl', 'Win', 'Alt', '', 'Alt', '', '', '', 'Ctrl'],
+  ['Ctrl', 'Win', 'Alt', ' ', 'Alt', '', '', '', 'Ctrl'],
 ];
 
 export const engLayoutLoverCase = [];
@@ -32,7 +32,7 @@ export const ruLayout = [
   ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', 'Del'],
   ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', '\\', 'Enter'],
   ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', '', 'Shift'],
-  ['Ctrl', 'Win', 'Alt', '', 'Alt', '', '', '', 'Ctrl'],
+  ['Ctrl', 'Win', 'Alt', ' ', 'Alt', '', '', '', 'Ctrl'],
 ];
 
 export const ruLayoutLoverCase = [];

@@ -37,14 +37,18 @@
   font-size: 2rem;
 
   &:hover {
-    background-color: $background-color;
+    //background-color: $background-color;
+    color: rgb(168, 167, 167);
+    border: 1px solid rgb(168, 167, 167);
     cursor: pointer;
   }
 }
 
 .key_active {
   &:hover {
-    background-color: $background-color;
+    //background-color: $background-color;
+    color: rgb(168, 167, 167);
+    border: 1px solid rgb(168, 167, 167);
     cursor: pointer;
   }
   transition: all 0.4s ease-out;
