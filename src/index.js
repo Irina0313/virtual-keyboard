@@ -359,6 +359,21 @@ function getMessageNew(pressedKey) {
       textarea.selectionEnd = textarea.selectionStart;
     }
   }
+  if (pressedKey.classList.contains('space')) {
+    if (ind === textarea.value.length) {
+      textarea.value += ' ';
+      textarea.selectionStart = textarea.value.length;
+      textarea.selectionEnd = textarea.selectionStart;
+      ind = position(textarea);
+    } else if (ind < textarea.value.length) {
+      const text = textarea.value;
+      textarea.value = `${text.substring(0, ind)} `;
+      textarea.value += text.substring(ind, text.length);
+      ind += 1;
+      textarea.selectionStart = ind;
+      textarea.selectionEnd = textarea.selectionStart;
+    }
+  }
 
   if (pressedKey.classList.contains('enter')) {
     if (ind === textarea.value.length) {
