@@ -2,13 +2,20 @@ import '@babel/polyfill/lib';
 import './index.html';
 import './style.scss';
 
+// import { locale } from 'core-js';
 import { ElementBuilder } from './modules/elem-builder';
 import {
   keyCodeLayout, engLayout, ruLayout, ruLayoutLoverCase, engLayoutLoverCase,
 } from './modules/keyboards-layouts';
 
 /*  create document strucrure  */
-let lang = 'EN';
+if (!localStorage.lang || localStorage.lang === '') {
+  localStorage.setItem('lang', 'EN');
+}
+
+function getLang() {
+  return localStorage.getItem('lang');
+}
 let capsLock = 'active';
 const body = document.querySelector('body');
 
@@ -106,6 +113,7 @@ div.innerText = 'Prodused by Iryna Kanavalchuk';
 /*  function to change the layout  */
 
 const changeLayout = (layoutRu, layoutEn) => {
+  const lang = getLang();
   for (let i = 0; i < keyRow.length; i += 1) {
     for (let k = 0; k < keyRow[i].childElementCount; k += 1) {
       if (lang === 'RU') {
@@ -130,10 +138,11 @@ function getPressedShiftAlt(change, ...codes) {
       }
     }
     pressed.clear();
+    const lang = getLang();
     if (lang === 'EN') {
-      lang = 'RU';
+      localStorage.lang = 'RU';
     } else {
-      lang = 'EN';
+      localStorage.lang = 'EN';
     }
     change(ruLayout, engLayout);
   });
@@ -147,10 +156,11 @@ function getPressedShiftAlt(change, ...codes) {
       }
     }
     pressed.clear();
+    const lang = getLang();
     if (lang === 'EN') {
-      lang = 'RU';
+      localStorage.lang = 'RU';
     } else {
-      lang = 'EN';
+      localStorage.lang = 'EN';
     }
     change(ruLayout, engLayout);
   });
@@ -175,12 +185,15 @@ getPressedShiftAlt(
 function getPressedCapsLock(change, ...codes) {
   let pressed = '';
   function runKeyDownFunction(event) {
-
-    if (event.code === undefined && (event.target.innerText === 'CapsLock')) {
+    if (event.code === undefined && ((event.target.innerText === 'CapsLock'))) {
       pressed = event.target.innerText;
+    } else if (event.target.innerText === 'Shift') {
+      const [, , class2] = event.target.classList;
+      pressed = class2;
     } else if (event.code) {
       pressed = event.code;
     }
+
     if (!codes.includes(pressed)) {
       return;
     }
@@ -205,6 +218,7 @@ function getPressedCapsLock(change, ...codes) {
       }
     }
   }
+
   document.addEventListener('keydown', (event) => {
     runKeyDownFunction(event);
   });
@@ -228,7 +242,7 @@ function getPressedCapsLock(change, ...codes) {
     }
   });
   document.addEventListener('mouseup', (event) => {
-    if (event.target.innerText === 'ShiftRight' || event.target.innerText === 'ShiftLeft') {
+    if (event.target.innerText === 'ShiftRight' || event.target.innerText === 'Shift') {
       runShiftUpFunction();
     }
   });
@@ -238,21 +252,10 @@ getPressedCapsLock(
   'CapsLock',
   'ShiftRight',
   'ShiftLeft',
+  'shiftleft',
+  'shiftright',
 );
 
-// let message = '';
-
-/* function getNewText(pressedKey) {
-  let key = pressedKey.innerText;
-  let newText = '';
-  if (/[a-zа-яё]/i.test(key) && key.length === 1) {
-    newText += key;
-  }
-  if (pressedKey.classList.contains('space')) {
-    newText += ' ';
-  }
-  return newText;
-} */
 const position = (obj) => {
   obj.focus();
   if (obj.selectionStart) return obj.selectionStart;
@@ -438,7 +441,6 @@ document.addEventListener('keyup', (event) => {
 keyboardSection.addEventListener('mousedown', (event) => {
   const { target } = event;
   for (let i = 0; i < keys.length; i += 1) {
-
     if (keys[i].classList.contains(target.classList[2]) && keys[i].classList[1] === 'shift') {
       keys[i].classList.add('key_active');
       getMessageNew(target);
@@ -448,22 +450,18 @@ keyboardSection.addEventListener('mousedown', (event) => {
       getMessageNew(target);
     }
   }
-
 });
 
 document.addEventListener('mouseup', (event) => {
-
   const { target } = event;
   for (let i = 0; i < keys.length; i += 1) {
     if (!keys[i].classList.contains('capslock')) {
       keys[i].classList.remove('key_active');
     }
     if (target.classList.contains('capslock') && keys[i].classList.contains('capslock')) {
-
       keys[i].classList.toggle('key_active');
     }
   }
-
 
   if (event.target.innerText === 'Enter') {
     ind += 1;
