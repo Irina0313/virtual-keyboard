@@ -2,6 +2,22 @@
 
 export const keyCodeLayout = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Delete', 'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Backslash', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'];
 
+function getLowerCase(layoutUpperCase) {
+  const layoutLowerCase = [];
+  layoutUpperCase.forEach((el) => {
+    const row = [];
+    el.forEach((key) => {
+      if (/[a-zа-яё]/i.test(key) && key.length === 1) {
+        row.push(key.toLowerCase());
+      } else {
+        row.push(key);
+      }
+    });
+    layoutLowerCase.push(row);
+  });
+  return layoutLowerCase;
+}
+
 /*  Array for an English layout */
 
 export const engLayout = [
@@ -9,21 +25,19 @@ export const engLayout = [
   ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', 'Del'],
   ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", '\\', 'Enter'],
   ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '', 'Shift'],
-  ['Ctrl', 'Win', 'Alt', ' ', 'Alt', '', '', '', 'Ctrl'],
+  ['Ctrl', 'Win', 'Alt', '', 'Alt', '', '', '', 'Ctrl'],
 ];
 
-export const engLayoutLoverCase = [];
-engLayout.forEach((el) => {
-  const row = [];
-  el.forEach((key) => {
-    if (/[a-zа-яё]/i.test(key) && key.length === 1) {
-      row.push(key.toLowerCase());
-    } else {
-      row.push(key);
-    }
-  });
-  engLayoutLoverCase.push(row);
-});
+export const engLayoutShiftPressed = [
+  ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace'],
+  ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', 'Del'],
+  ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', '|', 'Enter'],
+  ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '', 'Shift'],
+  ['Ctrl', 'Win', 'Alt', '', 'Alt', '', '', '', 'Ctrl'],
+];
+
+export const engLayoutLowerCase = getLowerCase(engLayout);
+export const engLayoutShiftPressedLowerCase = getLowerCase(engLayoutShiftPressed);
 
 /*  Array for an Russian layout */
 
@@ -32,18 +46,16 @@ export const ruLayout = [
   ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', 'Del'],
   ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', '\\', 'Enter'],
   ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', '', 'Shift'],
-  ['Ctrl', 'Win', 'Alt', ' ', 'Alt', '', '', '', 'Ctrl'],
+  ['Ctrl', 'Win', 'Alt', '', 'Alt', '', '', '', 'Ctrl'],
 ];
 
-export const ruLayoutLoverCase = [];
-ruLayout.forEach((el) => {
-  const row = [];
-  el.forEach((key) => {
-    if (/[a-zа-яё]/i.test(key) && key.length === 1) {
-      row.push(key.toLowerCase());
-    } else {
-      row.push(key);
-    }
-  });
-  ruLayoutLoverCase.push(row);
-});
+export const ruLayoutShiftPressed = [
+  ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace'],
+  ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', 'Del'],
+  ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', '/', 'Enter'],
+  ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '', 'Shift'],
+  ['Ctrl', 'Win', 'Alt', '', 'Alt', '', '', '', 'Ctrl'],
+];
+
+export const ruLayoutLowerCase = getLowerCase(ruLayout);
+export const ruLayoutShiftPressedLowerCase = getLowerCase(ruLayoutShiftPressed);
