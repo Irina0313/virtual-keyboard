@@ -175,6 +175,7 @@ getPressedShiftAlt(
 function getPressedCapsLock(change, ...codes) {
   let pressed = '';
   function runKeyDownFunction(event) {
+
     if (event.code === undefined && (event.target.innerText === 'CapsLock')) {
       pressed = event.target.innerText;
     } else if (event.code) {
@@ -437,6 +438,7 @@ document.addEventListener('keyup', (event) => {
 keyboardSection.addEventListener('mousedown', (event) => {
   const { target } = event;
   for (let i = 0; i < keys.length; i += 1) {
+
     if (keys[i].classList.contains(target.classList[2]) && keys[i].classList[1] === 'shift') {
       keys[i].classList.add('key_active');
       getMessageNew(target);
@@ -446,15 +448,23 @@ keyboardSection.addEventListener('mousedown', (event) => {
       getMessageNew(target);
     }
   }
+
 });
 
 document.addEventListener('mouseup', (event) => {
+
   const { target } = event;
   for (let i = 0; i < keys.length; i += 1) {
-    if (keys[i].classList.contains(target.classList[1])) {
+    if (!keys[i].classList.contains('capslock')) {
       keys[i].classList.remove('key_active');
     }
+    if (target.classList.contains('capslock') && keys[i].classList.contains('capslock')) {
+
+      keys[i].classList.toggle('key_active');
+    }
   }
+
+
   if (event.target.innerText === 'Enter') {
     ind += 1;
     textarea.selectionStart = ind;
