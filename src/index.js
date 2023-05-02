@@ -387,11 +387,7 @@ function getPressedCapsLock(change, ...codes) {
       }
     }
   });
-  /* document.addEventListener('mouseup', (event) => {
-    if (event.target.innerText === 'ShiftRight' || event.target.innerText === 'Shift') {
-      runShiftUpFunction();
-    }
-  }); */
+
 }
 getPressedCapsLock(
   changeLayout,
