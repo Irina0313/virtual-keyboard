@@ -466,6 +466,12 @@ function getMessage(pressedKey) {
       deleteText(start, end);
       return;
     }
+    if (ind === 0) {
+      textarea.value = ` ${textarea.value}`;
+      ind = 0;
+      textarea.selectionStart = ind;
+      textarea.selectionEnd = textarea.selectionStart;
+    }
     if (ind === textarea.value.length) {
       textarea.value += ' ';
       textarea.selectionStart = textarea.value.length;
@@ -547,9 +553,15 @@ function getMessageNew(pressedKey) {
   }
   if (pressedKey.classList.contains('space')) {
     const ifTextSelected = getSelektedArea(start, end);
+
     if (ifTextSelected === true) {
       deleteText(start, end);
       return;
+    }
+    if (ind === 0) {
+      textarea.value += ' ';
+      textarea.selectionStart = ind;
+      textarea.selectionEnd = textarea.selectionStart;
     }
     if (ind === textarea.value.length) {
       textarea.value += ' ';
@@ -739,9 +751,11 @@ document.addEventListener('mouseup', (event) => {
     const currStrLength = indexCurrStrEnd - indexCurrStrStart;
     const posit = ind - indexCurrStrStart;
 
-    if (posit === 0) {
+    if (nextStrLength === 0) {
       ind = indexNextStrStart;
-    } else if (nextStrLength === 0) {
+    } else if (currStrLength === 0) {
+      ind = indexNextStrStart + (nextStrLength / 2);
+    } else if (posit === 0) {
       ind = indexNextStrStart;
     } else if (posit !== 0 && nextStrLength !== 0) {
       ind = indexNextStrStart + ((posit * nextStrLength) / currStrLength);
@@ -792,13 +806,16 @@ document.addEventListener('mouseup', (event) => {
     const currStrLength = indexCurrStrEnd - indexCurrStrStart;
     const posit = ind - indexCurrStrStart;
 
-    if (posit === 0) {
+    if (nextStrLength === 0) {
       ind = indexNextStrStart;
-    } else if (nextStrLength === 0) {
+    } else if (currStrLength === 0) {
+      ind = indexNextStrStart + (nextStrLength / 2);
+    } else if (posit === 0) {
       ind = indexNextStrStart;
     } else if (posit !== 0 && nextStrLength !== 0) {
       ind = indexNextStrStart + ((posit * nextStrLength) / currStrLength);
     }
+
     textarea.selectionStart = ind;
     textarea.selectionEnd = textarea.selectionStart;
   }
