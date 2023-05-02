@@ -23,7 +23,7 @@
 }
 
 .key {
-  transition: all 0.4fs ease-out;
+  transition: all 0.15s ease-out;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,7 +51,7 @@
     border: 1px solid rgb(168, 167, 167);
     cursor: pointer;
   }
-  transition: all 0.4s ease-out;
+  transition: all 0.15s ease-out;
   background-color: $background-color;
   box-shadow: 1px 1px 5px black;
 }
@@ -64,13 +64,14 @@
   flex-grow: 5;
 }
 
-.capslock_active {
-  transition: all 0.3s ease-out;
+.capslock_active,
+.shift_active {
+  transition: all 0.15s ease-out;
   background-color: $background-color;
 }
 .capslock,
 .enter {
-  transition: all 0.3s ease-out;
+  transition: all 0.15s ease-out;
   flex-grow: 8;
 }
 .delete {

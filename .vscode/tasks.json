@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "buid-prod",
+			"problemMatcher": [],
+			"label": "npm: buid-prod",
+			"detail": "webpack --node-env=production"
+		}
+	]
+}

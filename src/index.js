@@ -220,7 +220,11 @@ getPressedShiftAlt(
 
 function getPressedCapsLock(change, ...codes) {
   let pressed = '';
+  const shiftLeft = document.querySelector('.shiftleft');
+  const shiftRight = document.querySelector('.shiftright');
   function runKeyDownFunction(event) {
+    /*  CapsLock  */
+
     if (event.code === undefined && ((event.target.innerText === 'CapsLock'))) {
       pressed = event.target.innerText;
     } else if (event.target.innerText === 'Shift') {
@@ -237,7 +241,12 @@ function getPressedCapsLock(change, ...codes) {
     if (pressed === 'CapsLock') {
       if (capsLock === 'active' && event.repeat !== true) {
         capsLock = 'unactive';
-        change(ruLayoutLowerCase, engLayoutLowerCase);
+        if (shiftLeft.classList.contains('shift_active') || (shiftRight.classList.contains('shift_active'))) {
+          change(ruLayoutShiftPressedLowerCase, engLayoutShiftPressedLowerCase);
+        } else {
+          change(ruLayoutLowerCase, engLayoutLowerCase);
+        }
+
         for (let i = 0; i < keys.length; i += 1) {
           if (keys[i].innerText === 'CapsLock' && (event.key === 'CapsLock' || event.target.innerText === 'CapsLock')) {
             keys[i].classList.remove('capslock_active');
@@ -245,7 +254,12 @@ function getPressedCapsLock(change, ...codes) {
         }
       } else if (capsLock === 'unactive' && event.repeat !== true) {
         capsLock = 'active';
-        change(ruLayout, engLayout);
+        if (shiftLeft.classList.contains('shift_active') || (shiftRight.classList.contains('shift_active'))) {
+          change(ruLayoutShiftPressed, engLayoutShiftPressed);
+        } else {
+          change(ruLayout, engLayout);
+        }
+
         for (let i = 0; i < keys.length; i += 1) {
           if (keys[i].innerText === 'CapsLock' && (event.key === 'CapsLock' || event.target.innerText === 'CapsLock')) {
             keys[i].classList.add('capslock_active');
@@ -254,11 +268,93 @@ function getPressedCapsLock(change, ...codes) {
       }
     }
 
+    /*  Shift  */
+
     if (pressed.toLowerCase() === 'shiftleft' || pressed.toLowerCase() === 'shiftright') {
       if (capsLock === 'active' && event.repeat !== true) {
-        change(ruLayoutShiftPressed, engLayoutShiftPressed);
+        /* shift left + CapsLock active */
+
+        for (let i = 0; i < keys.length; i += 1) {
+          if ((event.code === undefined && keys[i].classList[2] === event.target.classList[2]) && keys[i].classList[2] === 'shiftleft' && !keys[i].classList.contains('shift_active')) {
+            if (shiftRight.classList.contains('shift_active')) {
+              return;
+            }
+            keys[i].classList.add('shift_active');
+            change(ruLayoutShiftPressed, engLayoutShiftPressed);
+          } else if ((event.code !== undefined && keys[i].classList[2] === event.code.toLowerCase()) && keys[i].classList[2] === 'shiftleft' && !keys[i].classList.contains('shift_active')) {
+            if (shiftRight.classList.contains('shift_active')) {
+              return;
+            }
+            keys[i].classList.add('shift_active');
+            change(ruLayoutShiftPressed, engLayoutShiftPressed);
+          } else if (keys[i].classList[2] === 'shiftleft' && (keys[i].classList[2] === event.target.classList[2]) && keys[i].classList.contains('shift_active')) {
+            keys[i].classList.remove('shift_active');
+            change(ruLayout, engLayout);
+          }
+        }
+
+        /*  shift right + CapsLock active  */
+
+        for (let i = 0; i < keys.length; i += 1) {
+          if (keys[i].classList[2] === 'shiftright' && !keys[i].classList.contains('shift_active')) {
+            if (shiftLeft.classList.contains('shift_active')) {
+              return;
+            } if (keys[i].classList[2] === event.target.classList[2]) {
+              keys[i].classList.add('shift_active');
+              change(ruLayoutShiftPressed, engLayoutShiftPressed);
+            } else if (event.code !== undefined) {
+              if (keys[i].classList[2] === event.code.toLowerCase()) {
+                keys[i].classList.add('shift_active');
+                change(ruLayoutShiftPressed, engLayoutShiftPressed);
+              }
+            }
+          } else if (keys[i].classList[2] === 'shiftright' && (keys[i].classList[2] === event.target.classList[2]) && keys[i].classList.contains('shift_active')) {
+            keys[i].classList.remove('shift_active');
+            change(ruLayout, engLayout);
+          }
+        }
       } else if (capsLock === 'unactive' && event.repeat !== true) {
-        change(ruLayoutShiftPressedLowerCase, engLayoutShiftPressedLowerCase);
+        /* shift left + CapsLock unactive */
+
+        for (let i = 0; i < keys.length; i += 1) {
+          if ((event.code === undefined && keys[i].classList[2] === event.target.classList[2]) && keys[i].classList[2] === 'shiftleft' && !keys[i].classList.contains('shift_active')) {
+            if (shiftRight.classList.contains('shift_active')) {
+              return;
+            }
+            keys[i].classList.add('shift_active');
+            change(ruLayoutShiftPressed, engLayoutShiftPressed);
+          } else if ((event.code !== undefined && keys[i].classList[2] === event.code.toLowerCase()) && keys[i].classList[2] === 'shiftleft' && !keys[i].classList.contains('shift_active')) {
+            if (shiftRight.classList.contains('shift_active')) {
+              return;
+            }
+            keys[i].classList.add('shift_active');
+            change(ruLayoutShiftPressed, engLayoutShiftPressed);
+          } else if (keys[i].classList[2] === 'shiftleft' && (keys[i].classList[2] === event.target.classList[2]) && keys[i].classList.contains('shift_active')) {
+            keys[i].classList.remove('shift_active');
+            change(ruLayoutLowerCase, engLayoutLowerCase);
+          }
+        }
+
+        /*  shift right + CapsLock unactive  */
+
+        for (let i = 0; i < keys.length; i += 1) {
+          if (keys[i].classList[2] === 'shiftright' && !keys[i].classList.contains('shift_active')) {
+            if (shiftLeft.classList.contains('shift_active')) {
+              return;
+            } if (keys[i].classList[2] === event.target.classList[2]) {
+              keys[i].classList.add('shift_active');
+              change(ruLayoutShiftPressed, engLayoutShiftPressed);
+            } else if (event.code !== undefined) {
+              if (keys[i].classList[2] === event.code.toLowerCase()) {
+                keys[i].classList.add('shift_active');
+                change(ruLayoutShiftPressed, engLayoutShiftPressed);
+              }
+            }
+          } else if (keys[i].classList[2] === 'shiftright' && (keys[i].classList[2] === event.target.classList[2]) && keys[i].classList.contains('shift_active')) {
+            keys[i].classList.remove('shift_active');
+            change(ruLayoutLowerCase, engLayoutLowerCase);
+          }
+        }
       }
     }
 
@@ -283,13 +379,19 @@ function getPressedCapsLock(change, ...codes) {
   document.addEventListener('keyup', (ev) => {
     if (ev.code === 'ShiftRight' || ev.code === 'ShiftLeft') {
       runShiftUpFunction();
+      if (shiftLeft.classList.contains('shift_active')) {
+        shiftLeft.classList.remove('shift_active');
+      }
+      if (shiftRight.classList.contains('shift_active')) {
+        shiftRight.classList.remove('shift_active');
+      }
     }
   });
-  document.addEventListener('mouseup', (event) => {
+  /* document.addEventListener('mouseup', (event) => {
     if (event.target.innerText === 'ShiftRight' || event.target.innerText === 'Shift') {
       runShiftUpFunction();
     }
-  });
+  }); */
 }
 getPressedCapsLock(
   changeLayout,
@@ -417,7 +519,9 @@ function getMessageNew(pressedKey) {
       deleteText(start, end);
       return;
     }
-
+    if (ind === 0) {
+      return;
+    }
     if (ind === textarea.value.length) {
       textarea.value = textarea.value.slice(0, -1);
       textarea.innerText = textarea.value;
@@ -431,6 +535,7 @@ function getMessageNew(pressedKey) {
       textarea.selectionEnd = textarea.selectionStart;
     }
   }
+
   if (pressedKey.classList.contains('delete')) {
     if (ind < textarea.value.length) {
       const text = textarea.value;
@@ -560,10 +665,16 @@ keyboardSection.addEventListener('mousedown', (event) => {
 document.addEventListener('mouseup', (event) => {
   const { target } = event;
   for (let i = 0; i < keys.length; i += 1) {
-    if (!keys[i].classList.contains('capslock')) {
+    if (!keys[i].classList.contains('capslock') && !keys[i].classList.contains('shift')) {
       keys[i].classList.remove('key_active');
     }
     if (target.classList.contains('capslock') && keys[i].classList.contains('capslock')) {
+      keys[i].classList.toggle('key_active');
+    }
+    if (target.classList[2] === 'shiftleft' && keys[i].classList[2] === 'shiftleft') {
+      keys[i].classList.toggle('key_active');
+    }
+    if (target.classList[2] === 'shiftright' && keys[i].classList[2] === 'shiftright') {
       keys[i].classList.toggle('key_active');
     }
   }
