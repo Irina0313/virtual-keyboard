@@ -437,6 +437,11 @@ function deleteText(from, to) {
   textarea.selectionStart = ind;
   textarea.selectionEnd = textarea.selectionStart;
 }
+document.addEventListener('click', (e) => {
+  if (e) {
+    ind = position(textarea);
+  }
+});
 
 function getMessage(pressedKey) {
   if (pressedKey.innerText.length === 1 && !pressedKey.classList.contains('arrow')) {
