@@ -387,7 +387,6 @@ function getPressedCapsLock(change, ...codes) {
       }
     }
   });
-
 }
 getPressedCapsLock(
   changeLayout,
